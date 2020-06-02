@@ -1,0 +1,150 @@
+- Class: meta
+  Course: t-Tests II
+  Lesson: t-Tests II
+  Author: Simon Stuber
+  Type: Standard
+  Organization: Universitaet Koblenz/Landau
+  Version: 2.4.5
+
+- Class: text
+  Output: In der heutigen Lesson, beschaeftigen wir uns weiter mit t-Tests. In der letzten Lesson, haben wir gesehen, wie wir t-Tests fuer unabhaengige Stichproben rechnen koennen. Heute schauen wir uns an, wie wir abhaengige Stichproben vergleichen koennen. 
+
+- Class: text
+  Output: Abhaengige Stichproben liegen z.B. vor, wenn wir zwei Messzeitpunkte innerhalb einer Gruppe miteinander vergleichen wollen. So koennte man z.B. die Frage Stellen, ob die Studienzufriedenheit im zweiten Semester groesser ist, als die Studienzufriedenheit im ersten Semester. Da sowohl zum ersten als auch zum zweiten Messzeitpunkt die selben Teilnehmer*innen an der Befragung teilnehmen muessten, sind die Daten nicht unabhaengig. Das bedeutet, dass die beiden Messzeitpunkte miteinander Korrelieren. Teilnehmer*innen die im ersten Semester deutlich zufriedener waren als andere, sind wahrscheinlich auch im zweiten Semester sehr zufrieden. Die zwei Messzeitpunkte sind also nicht unabhaengig. In diesem Fall, ist der t-Test fuer abhaengige Stichproben die richtige Wahl.  
+  
+
+- Class: text
+  Output: Zuerst wollen wir wieder Daten generieren. Wir bleiben beim obigen Beispiel. Wir generieren also Daten fuer die Studienzufriedenheit im ersten Semester und Daten fuer die Studienzufriedenheit im zweiten Semester. Wie oben beschrieben, sind diese zwei Messzeitpunkte jetzt allerdings korreliert. Wer zu MZP 1 einen hohen Wert hat, hat auch eine groessere Wahrscheinlichkeit zum zweiten MZP einen hohen Wert zu haben, verglichen mit Personen die zu MZP 1 einen niedrigen Wert hatten. Wenn wir nun kuenstliche Daten generieren, muessen wir diese abhaengigkeit beachten. Dafuer verwenden wir eine multivariate Normalverteilung. Damit koennen wir zwei Variablen generieren die jeweils normalverteilt sind und die miteinander Korrelieren.  
+
+- Class: cmd_question
+  Output: Um Daten generieren zu koennen, brauchen wir das mvtnorm Package. Installieren Sie dieses Paket nun. 
+  CorrectAnswer: install.packages("mvtnorm"")
+  AnswerTests: omnitest(correctExpr='install.packages("mvtnorm")')
+  Hint: Der Befehl lautet "install.packages("mvtnorm")". 
+
+- Class: cmd_question
+  Output: Laden Sie nun das Paket.
+  CorrectAnswer: library(mvtnorm)
+  AnswerTests: omnitest(correctExpr='library(mvtnorm)')
+  Hint: Der Befehl lautet "library(mvtnorm)". 
+  
+
+- Class: cmd_question
+  Output: Bevor wir Daten generieren, muessen wir wieder sicherstellen, dass wir alle die selben Daten erhalten. Fuehren Sie dafuer den Befehl set.seed(42) aus. 
+  CorrectAnswer: set.seed(42)
+  AnswerTests: omnitest(correctExpr='set.seed(42)')
+  Hint: Der Befehl lautet "set.seed(42)"
+
+- Class: cmd_question
+  Output: Nun koennen wir kuenstliche Daten generieren. Fuehren Sie dafuer folgenden Befehl aus; "daten <- rmvnorm(100, mean=c(5,5.2), sigma =matrix(c(1,.8,.8,1),2,2))"
+  CorrectAnswer: daten <- rmvnorm(100, mean=c(5,5.2), sigma =matrix(c(1,.8,.8,1),2,2))
+  AnswerTests: omnitest(correctExpr='daten <- rmvnorm(100, mean=c(5,5.2), sigma =matrix(c(1,.8,.8,1),2,2))')
+  Hint: Der Befehl lautet "daten <- rmvnorm(100, mean=c(5,5.2), sigma =matrix(c(1,.8,.8,1),2,2))"
+
+- Class: text
+  Output: Wir haben jetzt Daten generiert fuer 100 Personen und zwei MZP. Fuer den ersten MZP haben wir einen Mittelwert von 5 gewaehlt und fuer den zweiten MZP einen Mittelwert von 5.2. Ausserdem, haben wir die Daten generiert mit einer bestimmten Varianz-Kovarianz-Matrix. Diese wird im sigma Argument angegeben. Diese Matrix ist eine kleine Tabelle in welcher die Varianzen der beiden Variablen angegeben sind. Ausserdem werden die Kovarianzen angegeben, also der Grad zu welchem die beiden Variablen miteinander zusammenhaengen. Wir haben Varianzen von jeweils 1 und eine Kovarianz von 0.8 gewaehlt um unsere Daten zu generieren.
+  
+  
+
+- Class: cmd_question
+  Output: Nun wollen wir die zwei MZP mit einem t-Test vergleichen. Da die beiden MZP nicht unabhaengig sind (sie korrelieren ja miteinander), muessen wir einen t-Test fuer abhaengige Stichproben waehlen. Dafuer setzen wir das paired Argument auf TRUE. Unsere beiden MZP sind nun in der ersten und der zweiten Spalte unseres Datenobjekts hinterlegt, also in daten[,1] und daten[,2]. Vergleichen Sie diese beiden MZP nun mit einem t-Test fuer abhaengige Stichproben. 
+  CorrectAnswer: t.test(daten[,1], daten[,2], paired=TRUE)
+  AnswerTests: omnitest(correctExpr='t.test(daten[,1], daten[,2], paired=TRUE)')
+  Hint: Der korrekte Befehl lautet "t.test(daten[,1], daten[,2], paired=TRUE)"
+  
+  
+
+- Class: text
+  Output: Der p-Wert ist < .05. Wir haben also ein signifikantes Ergebnis. Die zwei MZP unterscheiden sich also signifikant von einander. Die Studienzufriedenheit im zweiten Semester (daten[,,2]), ist also groesser als die Studienzufriedenheit im ersten Semester.  
+
+
+
+- Class: cmd_question
+  Output: Rechnen Sie nun erneut einen t-Test. Setzen Sie das paired Argument aber dieses mal auf FALSE. 
+  CorrectAnswer: t.test(daten[,1], daten[,2], paired=FALSE)
+  AnswerTests: omnitest(correctExpr='t.test(daten[,1], daten[,2], paired=FALSE)')
+  Hint: Der korrekte Befehl lautet "t.test(daten[,1], daten[,2], paired=FALSE)" 
+
+- Class: text
+  Output: Wie Sie sehen, haben wir nun kein signifikantes Ergebnis. Der p-Wert ist >.05. Das liegt daran, dass wir nun den falschen t-Test verwendet haben; naemlich einen t-Test fur unabhaengige Stichproben. Wenn wir faelschlicherweisse einen t-Test fuer unabhaengige Stichroben verwendet obwohl wir es mit abhaengigen Stichproben zu tun haben, haben wir eine geringere Power, d.h. wir haben eine geringere Wahrscheinlichkeit einen tasaechlichen unterschied zwischen den Stichproben aufzudecken. Es ist daher immer wichtig, gut zu ueberlegen welcher t-Test der richtige ist. Man sollte also immer testen, ob die Varianzen der beiden Stichrpoben gleich sind und gut uberlegen ob die Stichproben abhaengig sind. 
+
+
+- Class: text
+  Output: Wir haben gesehen, dass der tatsaechliche Unterschied zwischen den zwei MZP mit dem richtigen t-Test (mit dem paired Argument auf TRUE) aufgedeckt werden konnte. Wir haben ein signifikantes Ergebnis erhalten. Es gibt also einen Unterschied zwischen dem ersten und dem zweiten Semester. Aber wie gross ist dieser Effekt? Darueber sagt der p-Wert nichts aus. Wenn unsere Stichproben sehr gross sind, fuehren auch sehr kleine Unterschiede zwischen den beiden Stichproben zu signifikanten Ergebnissen. Um dies zu verdeutlichen, wollen wir wieder Daten generieren. 
+
+
+
+- Class: cmd_question
+  Output: Fuehren Sie zuerst den set.seed(1) Befehl aus. 
+  CorrectAnswer: set.seed(1)
+  AnswerTests: omnitest(correctExpr='set.seed(1)')
+  Hint: Der Befehl lautet "set.seed(1)"
+  
+  
+- Class: cmd_question
+  Output: Fuehren Sie den Befehl "datenKlein <- rmvnorm(300, mean=c(5,5.2), sigma =matrix(c(1,.8,.8,1),2,2))" aus. 
+  CorrectAnswer: datenKlein <- rmvnorm(30, mean=c(5,5.2), sigma =matrix(c(1,.8,.8,1),2,2))
+  AnswerTests: omnitest(correctExpr='datenKlein <- rmvnorm(300, mean=c(5,5.2), sigma =matrix(c(1,.8,.8,1),2,2))')
+  Hint: Der befehl lautet "datenKlein <- rmvnorm(300, mean=c(5,5.2), sigma =matrix(c(1,.8,.8,1),2,2))"
+  
+  
+
+- Class: cmd_question
+  Output: Fuehren Sie wieder den set.seed(1) Befehl aus. 
+  CorrectAnswer: set.seed(1)
+  AnswerTests: omnitest(correctExpr='set.seed(1)')
+  Hint: Der Befehl lautet "set.seed(1)"
+  
+
+- Class: cmd_question
+  Output: Fuehren Sie nun den Befehl "datenGross<- rmvnorm(3000, mean=c(5,5.2), sigma =matrix(c(1,.8,.8,1),2,2))" aus. 
+  CorrectAnswer: datenGross<- rmvnorm(3000, mean=c(5,5.2), sigma =matrix(c(1,.8,.8,1),2,2))
+  AnswerTests: omnitest(correctExpr='datenGross<- rmvnorm(3000, mean=c(5,5.2), sigma =matrix(c(1,.8,.8,1),2,2))')
+  Hint: Der Befehl lautet "datenGross<- rmvnorm(3000, mean=c(5,5.2), sigma =matrix(c(1,.8,.8,1),2,2))"
+  
+
+- Class: text
+  Output: Wir haben nun zwei Datensaetze generiert, einen mit 30 Personen und einen mit 3000 Personen. In beiden Faellen, haben wir abhaengige Stichproben generiert. Sie koennen sich die Daten wieder vorstellen als zwei MZP. Sowohl im kleinen, als auch im grossen Datensetz haben wir die gleichen Mitelwerte gewaehlt. Naemlich 5 fuer MZP 1 und 5.2 fuer MZP zwei. Auch der Grad zu welchem MZP 1 und MZP 2 zusammenhaengen ist in beiden Datensaetzen exakt gleich.  
+
+- Class: cmd_question
+  Output: Rechnen Sie nun einen t-Test fuer abhaengige Stichproben fuer die beiden Variablen im kleinen Datensatz mit "t.test(datenKlein[,1], datenKlein[,2], paired=TRUE)"
+  CorrectAnswer: t.test(datenKlein[,1], datenKlein[,2], paired=TRUE)
+  AnswerTests: omnitest(correctExpr='t.test(datenKlein[,1], datenKlein[,2], paired=TRUE)')
+  Hint: Der Befehl lautet "t.test(datenKlein[,1], datenKlein[,2], paired=TRUE)"
+
+- Class: cmd_question
+  Output: Und nun das gleiche fuer den grossen Datensatz. 
+  CorrectAnswer: t.test(datenGross[,1], datenGross[,2], paired=TRUE)
+  AnswerTests: omnitest(correctExpr='t.test(datenGross[,1], datenGross[,2], paired=TRUE)')
+  Hint: Der Befehl lautet "t.test(datenGross[,1], datenGross[,2], paired=TRUE)"
+
+- Class: text
+  Output: Dieses Beispiel soll folgendes verdeutlichen; obwohl der Unterschied zwischen MZP 1 und MZP 2 in beiden Datensaetzen gleich gross ist, unterscheiden sich die p-Werte der beiden t-Tests sehr deutlich. Zwar sind beide signifikant, aber der p-Wert fuer den grossen Datensatz ist sehr viel kleiner als der p-Wert fuer den t-Test mit dem kleinen Datensatz. Hieran sieht man also deutlich, dass der p-Wert nichts ueber die groesse des Effekts aussagt. Wir brauchen also einen andere Wert der uns etwas ueber die tatsaechliche Groesse des Effekts sagt. Dafuer berechnen wir Effektgroessen. 
+
+- Class: cmd_question
+  Output: Laden Sie das Paket lsr. Wenn Sie das Paket noch nicht installiert haben, tun Sie dies zuerst. 
+  CorrectAnswer: library(lsr)
+  AnswerTests: omnitest(correctExpr='library(lsr)')
+  Hint: Der Befehl lautet "library(lsr)"
+
+
+- Class: cmd_question
+  Output: Berechnen Sie nun die Effektgroesse fuer den Unterschied der beiden MZP im kleinen Datansatz mit "cohensD(datenKlein[,1], datenKlein[,2], method="paired")"
+  CorrectAnswer: cohensD(datenKlein[,1], datenKlein[,2], method="paired")
+  AnswerTests: omnitest(correctExpr='cohensD(datenKlein[,1], datenKlein[,2], method="paired")')
+  Hint: Der Befehl lautet "cohensD(datenKlein[,1], datenKlein[,2], method="paired")"
+  
+  
+
+- Class: cmd_question
+  Output: Wiederholen Sie das Ganze nun fuer den grossen Datensatz. 
+  CorrectAnswer: cohensD(datenGross[,1], datenGross[,2], method="paired")
+  AnswerTests: omnitest(correctExpr='cohensD(datenGross[,1], datenGross[,2], method="paired")')
+  Hint: Der Befehl lautet "cohensD(datenGross[,1], datenGross[,2], method="paired")"
+
+- Class: text
+  Output: Obowhl die Effektgroessen fuer den kleinen und den grossen Datensatz nicht exakt gleich sind, koennen wir doch sehen, dass die Effektgroessen in einem aehnlichen Bereich liegen. In beiden Faellen, haben wir Effektgroessen von <.5, was auf einen kleinen Effekt hindeutet.   
+
+- Class: text
+  Output: Das war die heutige Lesson. Bis naechste Woche!
+
