@@ -60,13 +60,13 @@
 
 
 - Class: cmd_question
-  Output: Rechnen Sie nun erneut einen t-Test. Setzen Sie das paired Argument aber dieses mal auf FALSE. 
+  Output: Rechnen Sie nun erneut einen t-Test. Setzen Sie das paired Argument aber dieses mal auf FALSE und var.equal=TRUE. 
   CorrectAnswer: t.test(daten[,1], daten[,2], paired=FALSE)
-  AnswerTests: omnitest(correctExpr='t.test(daten[,1], daten[,2], paired=FALSE)')
-  Hint: Der korrekte Befehl lautet "t.test(daten[,1], daten[,2], paired=FALSE)" 
+  AnswerTests: omnitest(correctExpr='t.test(daten[,1], daten[,2], paired=FALSE, var.equal=TRUE)')
+  Hint: Der korrekte Befehl lautet "t.test(daten[,1], daten[,2], paired=FALSE, var.equal=TRUE)" 
 
 - Class: text
-  Output: Wie Sie sehen, haben wir nun kein signifikantes Ergebnis. Der p-Wert ist >.05. Das liegt daran, dass wir nun den falschen t-Test verwendet haben; naemlich einen t-Test fur unabhaengige Stichproben. Wenn wir faelschlicherweisse einen t-Test fuer unabhaengige Stichroben verwendet obwohl wir es mit abhaengigen Stichproben zu tun haben, haben wir eine geringere Power, d.h. wir haben eine geringere Wahrscheinlichkeit einen tasaechlichen unterschied zwischen den Stichproben aufzudecken. Es ist daher immer wichtig, gut zu ueberlegen welcher t-Test der richtige ist. Man sollte also immer testen, ob die Varianzen der beiden Stichrpoben gleich sind und gut uberlegen ob die Stichproben abhaengig sind. 
+  Output: Wie Sie sehen, haben wir nun einen kleineren absoluten t-Wert und einen groesseren p-Wert. Das liegt daran, dass wir nun den falschen t-Test verwendet haben; naemlich einen t-Test fur unabhaengige Stichproben. Wenn wir faelschlicherweisse einen t-Test fuer unabhaengige Stichroben verwendet obwohl wir es mit abhaengigen Stichproben zu tun haben, haben wir eine geringere Power, d.h. wir haben eine geringere Wahrscheinlichkeit einen tasaechlichen unterschied zwischen den Stichproben aufzudecken. Es ist daher immer wichtig, gut zu ueberlegen welcher t-Test der richtige ist. Man sollte also immer testen, ob die Varianzen der beiden Stichrpoben gleich sind und gut uberlegen ob die Stichproben abhaengig sind. 
 
 
 - Class: text
